@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+<body>
+<div class="layuimini-container">
+	<fieldset class="table-search-fieldset">
+	    <legend>查询条件</legend>
+	    <div style="margin: 10px 10px 10px 10px">
+	        <form class="layui-form layui-form-pane" action="">
+	            <div class="layui-form-item">
+	                <div class="layui-inline">
+	                    <label class="layui-form-label">代码</label>
+	                    <div class="layui-input-inline">
+	                        <input type="text" name="code" autocomplete="off" class="layui-input">
+	                    </div>
+	                </div>
+	                <div class="layui-inline">
+	                    <label class="layui-form-label">名称</label>
+	                    <div class="layui-input-inline">
+	                        <input type="text" name="code_name" autocomplete="off" class="layui-input">
+	                    </div>
+	                </div>
+	                <div class="layui-inline">
+	                    <label class="layui-form-label">行业分类</label>
+	                    <div class="layui-input-inline">
+	                        <input type="text" name="industry" autocomplete="off" class="layui-input">
+	                    </div>
+	                </div>
+					<div class="layui-inline">
+					    <label class="layui-form-label">概念</label>
+					    <div class="layui-input-inline">
+					        <input type="text" name="gainian" autocomplete="off" class="layui-input">
+					    </div>
+					</div>
+					<div class="layui-inline">
+					    <label class="layui-form-label">状态</label>
+					    <div class="layui-input-inline">
+							<select name="status" >
+								<option value=""></option>
+							    <option value="1">在线</option>
+							    <option value="0">离线</option>
+							</select>
+					    </div>
+					</div>
+	                <div class="layui-inline">
+	                    <label class="layui-form-label">角色</label>
+	                    <div class="layui-input-inline">
+							<select name="role" id="role" class="layui-input">
+								<option value=""></option>
+								<option value="普通用户">普通用户</option>
+								<option value="管理员">管理员</option>
+								<option value="超级管理员">超级管理员</option>
+							</select>
+	                    </div>
+	                </div>
+	                <div class="layui-inline">
+						<button type="submit" class="layui-btn layui-btn-normal"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 查 询</button>
+						<button type="reset" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-refresh"></i> 重 置</button>
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	</fieldset>
+ 
+    <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+	
+	<script type="text/html" id="user-enable">
+	    {{ '{{#if (d.status == 1) { }}
+	    <span style="color: green">在线</span>
+	    {{# }else if(d.status == 0){ }}
+	    <span style="color: gray">离线</span>
+	    {{# } }}'|safe }}
+	</script>
+ 
+</div>
+ 
+<script src="../static/layui/layui.js" charset="utf-8"></script>
+ 
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/user-query',
+			method:'post',
+            defaultToolbar: [{ layEvent: 'refresh', icon: 'layui-icon-refresh'}, 'filter', 'exports', 'print'],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 80, title: '序号', align:'center', sort: true},
+				{field: 'code', width: 100, title: '代码', align:'center', sort: true},
+                {field: 'code_name', width: 180, title: '名称', align:'center', sort: true},
+                {field: 'industry', width: 180, title: '分类',align:'center', sort: true},
+				{field: 'industryClassification', width: 180, title: '评级',align:'center', sort: true},
+                {field: 'hygs', title: '--', width: 100, minWidth: 100, align:'center', sort: true},
+				{field: 'isst', width: 100, title: '是否ST', align:'center', sort: true, templet: '#user-enable',},
+                {field: 'gainian', minWidth: 800, width: 800, title: '概念',align:'left', sort: true, templet: '#roleCN'},
+                {title: '操作', Width: 50, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 20, 50, 100],
+            limit: 18,
+            page: true,
+            skin: 'row',
+			even: true
+        });
+		
+		// 监听搜索操作
+		form.on('submit(data-search-btn)', function (data) {
+			console.log(data.field);
+		    var result = JSON.stringify(data.field);
+		
+		    //执行搜索重载
+		    table.reload('currentTableId', {
+		        page: {
+		            curr: 1
+		        }
+		        , where: {
+		            Params:result
+		        }
+		    }, 'data');
+		
+		    return false;
+		});
+    });
+</script>
+ 
+</body>
+</html>
