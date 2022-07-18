@@ -39,6 +39,12 @@
 					        <input type="text" name="gainian" autocomplete="off" class="layui-input">
 					    </div>
 					</div>
+                    	<div class="layui-inline">
+					    <label class="layui-form-label">ROE</label>
+					    <div class="layui-input-inline">
+					        <input type="text" name="roe" autocomplete="off" class="layui-input">
+					    </div>
+					</div>
 					<div class="layui-inline">
 					    <label class="layui-form-label">状态</label>
 					    <div class="layui-input-inline">
@@ -101,7 +107,8 @@
                 {field: 'industry', width: 180, title: '分类',align:'center', sort: true},
 				{field: 'industryClassification', width: 180, title: '评级',align:'center', sort: true},
                 {field: 'hygs', title: '--', width: 100, minWidth: 100, align:'center', sort: true},
-				{field: 'isst', width: 100, title: '是否ST', align:'center', sort: true, templet: '#user-enable',},
+                {field: 'roe', width: 100, title: 'ROE', align:'center', sort: true, sort: true},
+				{field: 'isst', width: 100, title: '是否ST', align:'center', sort: true, templet: '#user-enable'},
                 {field: 'gainian', minWidth: 800, width: 800, title: '概念',align:'left', sort: true, templet: '#roleCN'},
                 {title: '操作', Width: 50, toolbar: '#currentTableBar', align: "center"}
             ]],
