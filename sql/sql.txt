@@ -1,0 +1,3 @@
+create or replace view v_baseallstock as 
+select a.*,b.hy,b.roe,b.totaval,b.ltval,b.ttm,b.pdr,b.netprofits from allstock a,basestock b 
+where substr(a.code,4)=b.code
